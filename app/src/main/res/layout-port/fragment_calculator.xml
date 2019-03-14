@@ -19,6 +19,8 @@
             android:id="@+id/txtViewExpression"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:inputType="text"
             android:gravity="bottom|right"
             android:text=""
             android:textColor="@color/colorPrimaryDark"

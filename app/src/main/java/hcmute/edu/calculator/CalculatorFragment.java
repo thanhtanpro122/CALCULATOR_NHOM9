@@ -9,15 +9,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
+
+import org.mariuszgromada.math.mxparser.*;
+
+import java.text.DecimalFormat;
 
 public class CalculatorFragment extends Fragment implements View.OnClickListener {
     private TextView screen;
     private String display="";
+    private String expression = "";
 
     private MainActivity mainActivity;
-
-    private String currentOperator = "";
 
     @Nullable
     @Override
@@ -42,6 +46,12 @@ public class CalculatorFragment extends Fragment implements View.OnClickListener
         Button btnMulti = (Button) v.findViewById(R.id.btnMultiply);
         Button btnDiv = (Button) v.findViewById(R.id.btnDevide);
 
+        ImageButton ibtnBackSpace = (ImageButton) v.findViewById(R.id.btnBackspace);
+
+        Button btnEqual = (Button) v.findViewById(R.id.btnEqual);
+
+        Button btnClear = (Button) v.findViewById(R.id.btnClear);
+
         screen = (TextView) v.findViewById(R.id.txtViewExpression);
 
         btn1.setOnClickListener(this);
@@ -59,6 +69,12 @@ public class CalculatorFragment extends Fragment implements View.OnClickListener
         btnMinus.setOnClickListener(this);
         btnMulti.setOnClickListener(this);
         btnDiv.setOnClickListener(this);
+
+        ibtnBackSpace.setOnClickListener(this);
+        btnClear.setOnClickListener(this);
+
+        btnEqual.setOnClickListener(this);
+
         return v;
     }
 
@@ -79,17 +95,65 @@ public class CalculatorFragment extends Fragment implements View.OnClickListener
     @Override
     public void onClick(View v) {
 //        onClickNumber(v);
-        Button b=(Button) v;
-        display += b.getText();
-        switch (b.getText().toString()){
-            case "+":
-            case "-":
-            case "⨯":
-            case "÷": {
-                currentOperator= b.getText().toString();
+        if(v instanceof Button) {
+            Button b = (Button) v;
+            if(display.equals("ERROR")){
+                display = "";
+                expression = "";
             }
-            default: {
-                break;
+            switch (b.getText().toString()) {
+                case "=": {
+                    if(!display.equals("")) {
+                        try {
+                            DecimalFormat df = new DecimalFormat("#.###");
+                            Expression ex = new Expression(expression);
+                            Double result = ex.calculate();
+                            Log.i("Calculator", "onClick: Equal " + result);
+                            if (result.isNaN()) throw new Exception();
+                            expression = df.format(result);
+                            display = df.format(result);
+                        } catch (Exception e) {
+                            display = "ERROR";
+                            expression = "";
+                        }
+                    }
+                    break;
+                }
+                case "⨯":{
+                    display += b.getText();
+                    expression += " * ";
+                    break;
+                }
+                case "÷":{
+                    display += b.getText();
+                    expression += " / ";
+                    break;
+                }
+                case "C":{
+                    display = "";
+                    expression = "";
+                    break;
+                }
+                default: {
+                    display += b.getText();
+                    expression += b.getText();
+                    break;
+                }
+            }
+        }else{
+            if(v instanceof ImageButton){
+                ImageButton imageButton = (ImageButton) v;
+                if(imageButton.getId() == R.id.btnBackspace){
+                    if(!display.equals("")&&!display.equals("ERROR")) {
+                        display = display.substring(0,display.length() - 1);
+                        expression = expression.substring(0,expression.length() - 1);
+                    }else{
+                        if(display.equals("ERROR")){
+                            display = "";
+                            expression = "";
+                        }
+                    }
+                }
             }
         }
         updateScreen();
