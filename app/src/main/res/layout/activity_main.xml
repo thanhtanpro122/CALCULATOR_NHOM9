@@ -9,4 +9,4 @@
     android:backgroundTint="@color/colorPrimary"
     android:id="@+id/fragment_calculator"
     android:orientation="vertical"
-    tools:context=".MainActivity" />
+    tools:context=".view.MainActivity" />
