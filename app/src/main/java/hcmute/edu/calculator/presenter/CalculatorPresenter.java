@@ -27,6 +27,10 @@ public class CalculatorPresenter {
     public NormalOperator div;
     public NormalOperator multi;
     public NormalOperator equal;
+    public NormalOperator negative;
+    public NormalOperator percent;
+    public Button comma;
+    public Button dauNgoac;
 
     public CalculatorPresenter(View view){
 
@@ -60,6 +64,13 @@ public class CalculatorPresenter {
 
         equal = new NormalOperator (R.id.btnEqual,(Button) view.findViewById(R.id.btnDivide),"","");
 
+        negative = new NormalOperator(R.id.btnPlusMinus, (Button) view.findViewById(R.id.btnPlusMinus),"(-","(-");
+
+        percent = new NormalOperator(R.id.btnPercent, (Button) view.findViewById(R.id.btnPercent),"%","/100");
+
+        comma = (Button) view.findViewById(R.id.btnComma);
+
+        dauNgoac = (Button) view.findViewById(R.id.btnParenthesis);
     }
 
     public void clear(){
@@ -91,6 +102,14 @@ public class CalculatorPresenter {
                     }
                     break;
                 }
+                case "+":{
+                    screen.setText(calculator.clickButton(plus));
+                    break;
+                }
+                case "-":{
+                    screen.setText(calculator.clickButton(minus));
+                    break;
+                }
                 case "⨯":{
                     screen.setText(calculator.clickButton(multi));
                     break;
@@ -103,11 +122,28 @@ public class CalculatorPresenter {
                     screen.setText(calculator.clear());
                     break;
                 }
+                case "+/-":{
+                    screen.setText(calculator.clickNegative(negative));
+                    break;
+                }
+                case "( )":{
+                    screen.setText(calculator.xulyngoac());
+                    break;
+                }
+                case ".":{
+                    screen.setText(calculator.xulyCham());
+                    break;
+                }
+                case "%":{
+                    screen.setText(calculator.clickButton(percent));
+                    break;
+                }
                 default: {
-                    screen.setText(calculator.insert(b.getText().toString()));
+                    screen.setText(calculator.insertNum(b.getText().toString()));
                     break;
                 }
             }
+
         }else{
             if(v instanceof ImageButton){
                 ImageButton imageButton = (ImageButton) v;

@@ -52,6 +52,10 @@ public class CalculatorFragment extends Fragment implements View.OnClickListener
 
         btnEqual.setOnClickListener(this);
 
+        calculatorPresenter.negative.getBtn().setOnClickListener(this);
+        calculatorPresenter.dauNgoac.setOnClickListener(this);
+        calculatorPresenter.comma.setOnClickListener(this);
+        calculatorPresenter.percent.getBtn().setOnClickListener(this);
         return v;
     }
 
