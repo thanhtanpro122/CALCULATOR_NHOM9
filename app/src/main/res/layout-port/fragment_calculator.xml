@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CalculatorFragment">
+    tools:context=".view.CalculatorFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,6 +19,8 @@
             android:id="@+id/txtViewExpression"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:inputType="text"
             android:gravity="bottom|right"
             android:text=""
             android:textColor="@color/colorPrimaryDark"
@@ -73,7 +75,7 @@
                     android:textSize="30sp" />
 
                 <Button
-                    android:id="@+id/btnDevide"
+                    android:id="@+id/btnDivide"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
@@ -233,20 +235,28 @@
             </TableRow>
 
             <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_width="299dp"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:id="@+id/btnParenthesis"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/button_bg_round"
+                    android:backgroundTint="@color/backgroudnumber"
+                    android:text="( )"
+                    android:textColor="@color/text"
+                    android:textSize="30sp" />
 
                 <Button
                     android:id="@+id/btnNumber0"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_margin="5dp"
-                    android:layout_span="2"
-                    android:background="@drawable/btn_0"
+                    android:background="@drawable/button_bg_round"
                     android:backgroundTint="@color/backgroudnumber"
-                    android:paddingLeft="40dp"
                     android:text="0"
-                    android:textAlignment="textStart"
                     android:textColor="@color/text"
                     android:textSize="30sp" />
 
@@ -257,7 +267,7 @@
                     android:layout_margin="5dp"
                     android:background="@drawable/button_bg_round"
                     android:backgroundTint="@color/backgroudnumber"
-                    android:text=","
+                    android:text="."
                     android:textColor="@color/text"
                     android:textSize="30sp" />
 

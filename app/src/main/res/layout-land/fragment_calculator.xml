@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CalculatorFragment">
+    tools:context=".view.CalculatorFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,6 +19,8 @@
             android:id="@+id/txtViewExpression"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:inputType="text"
             android:gravity="bottom|right"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="50sp" />
@@ -122,7 +124,7 @@
                     android:textSize="18sp" />
 
                 <Button
-                    android:id="@+id/btnDevide"
+                    android:id="@+id/btnDivide"
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
                     android:layout_margin="5dp"
