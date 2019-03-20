@@ -21,7 +21,7 @@ public class CalculatorPresenter {
     private TextView screen;
 
     private List<Number> lstBtnNumber;
-
+    //
     public NormalOperator plus;
     public NormalOperator minus;
     public NormalOperator div;
@@ -31,6 +31,7 @@ public class CalculatorPresenter {
     public NormalOperator percent;
     public Button comma;
     public Button dauNgoac;
+//    public NormalOperator squareRoot;
 
     public CalculatorPresenter(View view){
 
@@ -71,6 +72,8 @@ public class CalculatorPresenter {
         comma = (Button) view.findViewById(R.id.btnComma);
 
         dauNgoac = (Button) view.findViewById(R.id.btnParenthesis);
+
+//        squareRoot = new NormalOperator(R.id.btnSquare_root, (Button) view.findViewById(R.id.btnSquare_root),"√","sqrt(");
     }
 
     public void clear(){
@@ -138,6 +141,10 @@ public class CalculatorPresenter {
                     screen.setText(calculator.clickButton(percent));
                     break;
                 }
+//                case "√":{
+//                    screen.setText(calculator.clickButton(squareRoot));
+//                    break;
+//                }
                 default: {
                     screen.setText(calculator.insertNum(b.getText().toString()));
                     break;

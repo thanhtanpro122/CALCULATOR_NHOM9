@@ -12,6 +12,7 @@ import hcmute.edu.calculator.model.operator.IOperatorImp;
 
 public class Calculator {
 
+    //Initialize view's properties and controller's properties
     private String expression;
     private String display;
     public boolean pressEqual;
@@ -24,11 +25,19 @@ public class Calculator {
         pressEqual = false;
     }
 
+    //Handling when press Equal Button
     public String execute(){
         try {
             pressEqual = true;
+            int countDauNgoac = cout(display, "(")-cout(expression, ")");
+            if(countDauNgoac > 0){
+                for(int i = 0 ; i < countDauNgoac ; i++){
+                    display += ")";
+                    expression += ")";
+                }
+            }
             DecimalFormat df = new DecimalFormat("#.###");
-          //  Log.i("test", "execute: "+expression);
+            Log.i("test", "execute: "+expression);
             Expression ex = new Expression(replace(expression)); // thay dau phay thanh dau cham.
             Double result = ex.calculate();
 
@@ -43,14 +52,21 @@ public class Calculator {
         }
     }
 
+    //Handling erase button
     public String backSpace(TextView screen){
         pressEqual = false;
         display = screen.getText().toString();
+        String lastChar = display.substring(display.length()-1,display.length());
         if(!display.equals("")&&!display.equals("ERROR")) {
-            if(display.substring(display.length()-1,display.length()).equals("%"))
+            if(lastChar.equals("%"))
             {
                 display = display.substring(0,display.length() - 1);
                 expression = expression.substring(0,expression.length() - 4);
+            }
+            else if (lastChar.equals("√"))
+            {
+                display = display.substring(0,display.length() - 1);
+                expression = expression.substring(0,expression.length() - 5);
             }
             else {
                 display = display.substring(0,display.length() - 1);
@@ -67,10 +83,20 @@ public class Calculator {
     }
 
     public String insertNum(String num){
-        if(!pressEqual) { // pressEqual = false
+        // pressEqual = false
+        if(!pressEqual) {
+            if(!display.equals("")){
+                if(display.substring(display.length()-1,display.length()).equals(")")){
+                    display += "x";
+                    expression += "*";
+                }
+            }
             display += num;
             expression += num;
-        }else{ // pressEqual = true -> vừa bấm = -> neu bam so -> xoa
+
+        }
+        // pressEqual = true -> vừa bấm = -> neu bam so -> xoa
+        else{
             display = num;
             expression = num;
             pressEqual = false;
@@ -93,7 +119,8 @@ public class Calculator {
         StringBuilder strExpression = new StringBuilder(expression);
         if ( display.equals("")){
             return display;
-        }else{
+        }
+        else{
             if(!display.substring(display.length() -  1 ,display.length()).matches("^-?\\d+$")) {
                 if (display.substring(display.length() - 1, display.length()).matches("^[+-x÷]$")) {
                     display = strDisplay.delete(display.length() - 1, display.length()).toString();
@@ -135,6 +162,8 @@ public class Calculator {
                 }
                 display = strDisplay.insert(i,operatorImp.getsDisplay()).toString();
                 expression = strExpression.insert(i,operatorImp.getsDisplayExe()).toString();
+//                display = strDisplay.insert(display.length(),")").toString();
+//                expression = strExpression.insert(expression.length(),")").toString();
                 flag= false;
                 break;
             }
@@ -142,6 +171,8 @@ public class Calculator {
         if (flag == true){
             display = strDisplay.insert(0,operatorImp.getsDisplay()).toString();
             expression = strExpression.insert(0,operatorImp.getsDisplayExe()).toString();
+//            display = strDisplay.insert(display.length(),")").toString();
+//            expression = strExpression.insert(expression.length(),")").toString();
         }
 
         //Log.i("test", "clickNegative: "+expression);
@@ -211,6 +242,7 @@ public class Calculator {
         return display;
     }
 
+    //Count the number of duplicates in a string
     public int cout(String chuoi, String x){
         int dem = 0;
         for (int i=0 ; i< chuoi.length(); i++){
@@ -220,21 +252,20 @@ public class Calculator {
         }
         return dem;
     }
-
+    //Handling when have dots in expression
     public String xulyCham(){
         //Xu ly sau khi bang
-
-        if(pressEqual){ // pressEqual = true
+        // pressEqual = true
+        if(pressEqual){
             clear();
             pressEqual = false;
 
         }
 
         boolean haveDot = false;
-
+        //Check if have dots in expression
         for (int i = display.length(); i>0 ;i--){
             if(!display.substring(i-1,i).matches("^-?\\d+$")){
-
                 if(display.substring(i-1,i).equals(".")){
                     haveDot= true;
                     break;
@@ -243,8 +274,15 @@ public class Calculator {
             }
         }
         if(haveDot == false){
-            display+=".";
-            expression+=".";
+//            display+=".";
+//            expression+=".";
+            if(!display.substring(display.length()-1,display.length()).matches("^-?\\d+$")){
+                insertNum("0.");
+            }
+            else{
+                insertNum(".");
+            }
+
         }
         return display;
     }
