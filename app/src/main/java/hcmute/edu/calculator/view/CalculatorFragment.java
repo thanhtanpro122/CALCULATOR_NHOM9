@@ -1,6 +1,7 @@
 package hcmute.edu.calculator.view;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -38,6 +39,19 @@ public class CalculatorFragment extends Fragment implements View.OnClickListener
         Button btnEqual = (Button) v.findViewById(R.id.btnEqual);
 
         Button btnClear = (Button) v.findViewById(R.id.btnClear);
+
+        try {
+            Button btnDiary = v.findViewById(R.id.btnDiary);
+            btnDiary.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getContext(), HistoryActivity.class);
+                    startActivity(intent);
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         screen = (TextView) v.findViewById(R.id.txtViewExpression);
 

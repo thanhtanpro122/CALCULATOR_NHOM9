@@ -1,5 +1,6 @@
 package hcmute.edu.calculator.presenter;
 
+import android.content.Context;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -10,6 +11,7 @@ import java.util.List;
 
 import hcmute.edu.calculator.R;
 import hcmute.edu.calculator.model.calculator.Calculator;
+import hcmute.edu.calculator.model.operator.Expression;
 import hcmute.edu.calculator.model.operator.NormalOperator;
 import hcmute.edu.calculator.model.operator.Number;
 
@@ -21,6 +23,7 @@ public class CalculatorPresenter {
     private TextView screen;
 
     private List<Number> lstBtnNumber;
+    public static ArrayList<Expression> history = new ArrayList<>();
 
     public NormalOperator plus;
     public NormalOperator minus;
@@ -98,7 +101,12 @@ public class CalculatorPresenter {
             switch (b.getText().toString()) {
                 case "=": {
                     if(!isClear()) {
-                        setDisplayScreen(calculator.execute());
+                        String exp = screen.getText().toString();
+                        String res = calculator.execute();
+
+                        setDisplayScreen(res);
+
+                        history.add(new Expression(exp, res));
                     }
                     break;
                 }
