@@ -70,6 +70,17 @@ public class CalculatorFragment extends Fragment implements View.OnClickListener
         calculatorPresenter.dauNgoac.setOnClickListener(this);
         calculatorPresenter.comma.setOnClickListener(this);
         calculatorPresenter.percent.getBtn().setOnClickListener(this);
+
+        // Map and add event for landscape buttons
+        Button btnSin = v.findViewById(R.id.btnSin);
+        if (btnSin != null) {
+            btnSin.setOnClickListener(this);
+            Button btnCos = v.findViewById(R.id.btnCos);
+            btnCos.setOnClickListener(this);
+            Button btnTan = v.findViewById(R.id.btnTan);
+            btnTan.setOnClickListener(this);
+        }
+
         return v;
     }
 

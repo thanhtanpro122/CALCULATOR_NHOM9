@@ -74,6 +74,7 @@ public class CalculatorPresenter {
         comma = (Button) view.findViewById(R.id.btnComma);
 
         dauNgoac = (Button) view.findViewById(R.id.btnParenthesis);
+
     }
 
     public void clear(){
@@ -146,6 +147,30 @@ public class CalculatorPresenter {
                     screen.setText(calculator.clickButton(percent));
                     break;
                 }
+                case "sin":
+                    if (checkValidOperation()) {
+//                        String text = screen.getText().toString().trim();
+                        calculator.setDisplay(calculator.getDisplay() + "sin(");
+                        calculator.setExpression(calculator.getExpression() + "sin(");
+                        screen.setText(calculator.getDisplay());
+                    }
+                    break;
+                case "cos":
+                    if (checkValidOperation()) {
+//                        String text = screen.getText().toString().trim();
+                        calculator.setDisplay(calculator.getDisplay() + "cos(");
+                        calculator.setExpression(calculator.getExpression() + "cos(");
+                        screen.setText(calculator.getDisplay());
+                    }
+                    break;
+                case "tan":
+                    if (checkValidOperation()) {
+//                        String text = screen.getText().toString().trim();
+                        calculator.setDisplay(calculator.getDisplay() + "tan(");
+                        calculator.setExpression(calculator.getExpression() + "tan(");
+                        screen.setText(calculator.getDisplay());
+                    }
+                    break;
                 default: {
                     screen.setText(calculator.insertNum(b.getText().toString()));
                     break;
@@ -160,6 +185,15 @@ public class CalculatorPresenter {
                 }
             }
         }
+    }
+
+    private boolean checkValidOperation() {
+        String text = screen.getText().toString().trim();
+        if (text.isEmpty()) {
+            return true;
+        }
+        char last = text.charAt(text.length() - 1);
+        return last == '+' || last == '-' || last == '⨯' || last == '÷' || last == '(';
     }
 
     public Calculator getCalculator() {
