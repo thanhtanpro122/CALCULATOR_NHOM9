@@ -81,6 +81,28 @@ public class CalculatorFragment extends Fragment implements View.OnClickListener
             btnCos.setOnClickListener(this);
             Button btnTan = v.findViewById(R.id.btnTan);
             btnTan.setOnClickListener(this);
+            Button btnCan = v.findViewById(R.id.btnSquare_root);
+            btnCan.setOnClickListener(this);
+            Button btnRad = v.findViewById(R.id.btnRad);
+            btnRad.setOnClickListener(this);
+            Button btnLn = v.findViewById(R.id.btnLn);
+            btnLn.setOnClickListener(this);
+            Button btnLog = v.findViewById(R.id.btnLog);
+            btnLog.setOnClickListener(this);
+            Button btn1DivideX = v.findViewById(R.id.btn1divideX);
+            btn1DivideX.setOnClickListener(this);
+            Button btnXPowerOf2 = v.findViewById(R.id.button31);
+            btnXPowerOf2.setOnClickListener(this);
+            Button btnEPowerOfN = v.findViewById(R.id.button32);
+            btnEPowerOfN.setOnClickListener(this);
+            Button btnXPowerOfN = v.findViewById(R.id.button29);
+            btnXPowerOfN.setOnClickListener(this);
+            Button btnAbsX = v.findViewById(R.id.btnAbsX);
+            btnAbsX.setOnClickListener(this);
+            Button btnPi = v.findViewById(R.id.btnPi);
+            btnPi.setOnClickListener(this);
+            Button btnE = v.findViewById(R.id.btnEuler);
+            btnE.setOnClickListener(this);
         }
 
         return v;

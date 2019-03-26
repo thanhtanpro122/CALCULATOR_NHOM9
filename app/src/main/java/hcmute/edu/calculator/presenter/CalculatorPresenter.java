@@ -148,10 +148,14 @@ public class CalculatorPresenter {
                     screen.setText(calculator.clickButton(percent));
                     break;
                 }
-//                case "√":{
-//                    screen.setText(calculator.clickButton(squareRoot));
-//                    break;
-//                }
+                case "√":
+                    if(checkValidOperation()) {
+                        calculator.setDisplay(calculator.getDisplay()+"√(");
+                        calculator.setDisplay(calculator.getExpression()+"sqrt(");
+                        screen.setText(calculator.getDisplay());
+                    }
+                    break;
+
                 case "sin":
                     if (checkValidOperation()) {
 //                        String text = screen.getText().toString().trim();
@@ -173,6 +177,83 @@ public class CalculatorPresenter {
 //                        String text = screen.getText().toString().trim();
                         calculator.setDisplay(calculator.getDisplay() + "tan(");
                         calculator.setExpression(calculator.getExpression() + "tan(");
+                        screen.setText(calculator.getDisplay());
+                    }
+                    break;
+
+                case "Rad":
+                    if(checkValidOperation()){
+                        calculator.setDisplay(calculator.getDisplay()+"rad(");
+                        calculator.setExpression(calculator.getExpression()+"rad(");
+                        screen.setText(calculator.getDisplay());
+                    }
+                    break;
+                case "ln":
+                    if(checkValidOperation()){
+                        calculator.setDisplay(calculator.getDisplay()+"ln(");
+                        calculator.setExpression(calculator.getExpression()+"ln(");
+                        screen.setText(calculator.getDisplay());
+                    }
+                    break;
+
+                case "log":
+                    if(checkValidOperation()){
+                        calculator.setDisplay(calculator.getDisplay()+"log(");
+                        calculator.setExpression(calculator.getExpression()+"log(");
+                        screen.setText(calculator.getDisplay());
+                    }
+                    break;
+
+                case "1/x":
+                    if(checkValidOperation()){
+                        calculator.setDisplay(calculator.getDisplay()+"1/");
+                        calculator.setExpression(calculator.getExpression()+"1/");
+                        screen.setText(calculator.getDisplay());
+                    }
+                    break;
+
+                case "eⁿ":
+                    if(checkValidOperation()){
+                        calculator.setDisplay(calculator.getDisplay()+"e^(");
+                        calculator.setExpression(calculator.getExpression()+"e^(");
+                        screen.setText(calculator.getDisplay());
+                    }
+                    break;
+                case "x\\u00B2":
+                    if(checkValidOperation()){
+                        calculator.setDisplay(calculator.getDisplay()+"^(2)");
+                        calculator.setExpression(calculator.getExpression()+"^(2)");
+                        screen.setText(calculator.getDisplay());
+                    }
+                    break;
+                case "xⁿ":
+                    if(checkValidOperation()){
+                        calculator.setDisplay(calculator.getDisplay()+"^(");
+                        calculator.setExpression(calculator.getExpression()+"^(");
+                        screen.setText(calculator.getDisplay());
+                    }
+                    break;
+
+                case "|x|":
+                    if(checkValidOperation()){
+                        calculator.setDisplay(calculator.getDisplay()+"abs(");
+                        calculator.setExpression(calculator.getExpression()+"abs(");
+                        screen.setText(calculator.getDisplay());
+                    }
+                    break;
+
+                case "π":
+                    if(checkValidOperation()){
+                        calculator.setDisplay(calculator.getDisplay()+"PI");
+                        calculator.setExpression(calculator.getExpression()+"PI");
+                        screen.setText(calculator.getDisplay());
+                    }
+                    break;
+
+                case "e":
+                    if(checkValidOperation()){
+                        calculator.setDisplay(calculator.getDisplay()+"e");
+                        calculator.setExpression(calculator.getExpression()+"e");
                         screen.setText(calculator.getDisplay());
                     }
                     break;
