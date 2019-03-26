@@ -33,6 +33,7 @@ public class Calculator {
             if (result.isNaN()) throw new Exception();
             expression = df.format(result);
             display = expression;
+            display=themChamVao();
             return display;
         } catch (Exception e) {
             clear();
@@ -41,6 +42,7 @@ public class Calculator {
         }
     }
 
+    // Xu ly xoa so
     public String backSpace(TextView screen){
         pressEqual = false;
         display = screen.getText().toString();
@@ -64,19 +66,25 @@ public class Calculator {
         return display;
     }
 
+    //Xu ly nhap so
     public String insertNum(String num){
         if(!pressEqual) { // pressEqual = false
+            display=expression;
             display += num;
             expression += num;
+            display=themChamVao();
         }else{ // pressEqual = true -> vừa bấm = -> neu bam so -> xoa
+            display=expression;
             display = num;
             expression = num;
+            display=themChamVao();
             pressEqual = false;
         }
 
         return display;
     }
 
+    // Clear man hinh
     public String clear(){
         expression = "";
         display = "";
@@ -131,8 +139,6 @@ public class Calculator {
         StringBuilder strExpression = new StringBuilder(expression);
         boolean flag= true;
 
-
-
         for (int i = display.length(); i>0 ; i--){
             //Log.i("Negative", "clickNegative - vi tri xet: "+display.substring(i-1,i));
             if (!display.substring(i-1,i).matches("^-?\\d+$")){
@@ -161,7 +167,6 @@ public class Calculator {
         //Log.i("test", "clickNegative: "+expression);
         return display;
     }
-
 
     // dành cho máy samsung.
     public String replace(String ex)
@@ -259,6 +264,21 @@ public class Calculator {
         if(haveDot == false){
             display+=".";
             expression+=".";
+        }
+        return display;
+    }
+
+    // Xu li them phay. Vi du nhu 1000 thi se hien thi la 1,000
+    public String themChamVao(){
+        for(int i=display.length(); i>0;i-=3){
+            if(i<display.length()) {
+                if (!display.substring(i, i + 1).equals(",")) {
+                    String s =
+                            (new StringBuilder().append(display.substring(0, i)).append(",").
+                                    append(display.substring(i, display.length())).toString());
+                    display = s;
+                }
+            }
         }
         return display;
     }
