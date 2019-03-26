@@ -17,8 +17,6 @@ public class Calculator {
     private String display;
     public boolean pressEqual;
 
-
-
     public Calculator(){
         this.expression = "";
         this.display = "";
@@ -109,6 +107,22 @@ public class Calculator {
         expression = "";
         display = "";
         return display;
+    }
+
+    public String getExpression() {
+        return expression;
+    }
+
+    public void setExpression(String expression) {
+        this.expression = expression;
+    }
+
+    public String getDisplay() {
+        return display;
+    }
+
+    public void setDisplay(String display) {
+        this.display = display;
     }
 
     public String clickButton(IOperatorImp operatorImp){

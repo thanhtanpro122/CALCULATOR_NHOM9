@@ -1,12 +1,11 @@
 package hcmute.edu.calculator.view;
 
 import android.content.Context;
-import android.content.res.Configuration;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,6 +42,19 @@ public class CalculatorFragment extends Fragment implements View.OnClickListener
 
         Button btnClear = (Button) v.findViewById(R.id.btnClear);
 
+        try {
+            Button btnDiary = v.findViewById(R.id.btnDiary);
+            btnDiary.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getContext(), HistoryActivity.class);
+                    startActivity(intent);
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         screen = (TextView) v.findViewById(R.id.txtViewExpression);
 
 
@@ -60,6 +72,17 @@ public class CalculatorFragment extends Fragment implements View.OnClickListener
         calculatorPresenter.dauNgoac.setOnClickListener(this);
         calculatorPresenter.comma.setOnClickListener(this);
         calculatorPresenter.percent.getBtn().setOnClickListener(this);
+
+        // Map and add event for landscape buttons
+        Button btnSin = v.findViewById(R.id.btnSin);
+        if (btnSin != null) {
+            btnSin.setOnClickListener(this);
+            Button btnCos = v.findViewById(R.id.btnCos);
+            btnCos.setOnClickListener(this);
+            Button btnTan = v.findViewById(R.id.btnTan);
+            btnTan.setOnClickListener(this);
+        }
+
         return v;
     }
 

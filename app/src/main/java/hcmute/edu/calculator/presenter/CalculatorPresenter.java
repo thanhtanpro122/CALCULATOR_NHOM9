@@ -10,6 +10,7 @@ import java.util.List;
 
 import hcmute.edu.calculator.R;
 import hcmute.edu.calculator.model.calculator.Calculator;
+import hcmute.edu.calculator.model.operator.Expression;
 import hcmute.edu.calculator.model.operator.NormalOperator;
 import hcmute.edu.calculator.model.operator.Number;
 
@@ -21,7 +22,8 @@ public class CalculatorPresenter {
     private TextView screen;
 
     private List<Number> lstBtnNumber;
-    //
+    public static ArrayList<Expression> history = new ArrayList<>();
+
     public NormalOperator plus;
     public NormalOperator minus;
     public NormalOperator div;
@@ -101,7 +103,12 @@ public class CalculatorPresenter {
             switch (b.getText().toString()) {
                 case "=": {
                     if(!isClear()) {
-                        setDisplayScreen(calculator.execute());
+                        String exp = screen.getText().toString();
+                        String res = calculator.execute();
+
+                        setDisplayScreen(res);
+
+                        history.add(new Expression(exp, res));
                     }
                     break;
                 }
@@ -145,6 +152,30 @@ public class CalculatorPresenter {
 //                    screen.setText(calculator.clickButton(squareRoot));
 //                    break;
 //                }
+                case "sin":
+                    if (checkValidOperation()) {
+//                        String text = screen.getText().toString().trim();
+                        calculator.setDisplay(calculator.getDisplay() + "sin(");
+                        calculator.setExpression(calculator.getExpression() + "sin(");
+                        screen.setText(calculator.getDisplay());
+                    }
+                    break;
+                case "cos":
+                    if (checkValidOperation()) {
+//                        String text = screen.getText().toString().trim();
+                        calculator.setDisplay(calculator.getDisplay() + "cos(");
+                        calculator.setExpression(calculator.getExpression() + "cos(");
+                        screen.setText(calculator.getDisplay());
+                    }
+                    break;
+                case "tan":
+                    if (checkValidOperation()) {
+//                        String text = screen.getText().toString().trim();
+                        calculator.setDisplay(calculator.getDisplay() + "tan(");
+                        calculator.setExpression(calculator.getExpression() + "tan(");
+                        screen.setText(calculator.getDisplay());
+                    }
+                    break;
                 default: {
                     screen.setText(calculator.insertNum(b.getText().toString()));
                     break;
@@ -159,6 +190,15 @@ public class CalculatorPresenter {
                 }
             }
         }
+    }
+
+    private boolean checkValidOperation() {
+        String text = screen.getText().toString().trim();
+        if (text.isEmpty()) {
+            return true;
+        }
+        char last = text.charAt(text.length() - 1);
+        return last == '+' || last == '-' || last == '⨯' || last == '÷' || last == '(';
     }
 
     public Calculator getCalculator() {
