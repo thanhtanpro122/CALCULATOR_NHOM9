@@ -72,12 +72,12 @@ public class Calculator {
             display=expression;
             display += num;
             expression += num;
-            display=themChamVao();
+            //display=themChamVao();
         }else{ // pressEqual = true -> vừa bấm = -> neu bam so -> xoa
             display=expression;
             display = num;
             expression = num;
-            display=themChamVao();
+            //display=themChamVao();
             pressEqual = false;
         }
 
@@ -273,6 +273,7 @@ public class Calculator {
         for(int i=display.length(); i>0;i-=3){
             if(i<display.length()) {
                 if (!display.substring(i, i + 1).equals(",")) {
+
                     String s =
                             (new StringBuilder().append(display.substring(0, i)).append(",").
                                     append(display.substring(i, display.length())).toString());
