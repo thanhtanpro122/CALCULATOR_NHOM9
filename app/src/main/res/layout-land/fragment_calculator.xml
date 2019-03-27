@@ -61,13 +61,13 @@
                 android:layout_height="match_parent">
 
                 <Button
-                    android:id="@+id/btn2nd"
+                    android:id="@+id/btnXFactorial"
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
                     android:layout_margin="5dp"
                     android:background="@drawable/btn_0"
                     android:backgroundTint="@color/backgroudnumber"
-                    android:text="2nd"
+                    android:text="x!"
                     android:textAllCaps="false"
                     android:textColor="@color/text"
                     android:textSize="18sp" />

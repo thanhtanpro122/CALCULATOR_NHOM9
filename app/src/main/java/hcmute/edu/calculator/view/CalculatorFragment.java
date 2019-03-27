@@ -103,6 +103,8 @@ public class CalculatorFragment extends Fragment implements View.OnClickListener
             btnPi.setOnClickListener(this);
             Button btnE = v.findViewById(R.id.btnEuler);
             btnE.setOnClickListener(this);
+            Button btnXFactorial = v.findViewById(R.id.btnXFactorial);
+            btnXFactorial.setOnClickListener(this);
         }
 
         return v;

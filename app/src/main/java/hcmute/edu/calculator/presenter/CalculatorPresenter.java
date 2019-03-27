@@ -36,7 +36,11 @@ public class CalculatorPresenter {
     public Button comma;
     public Button dauNgoac;
 
-    public AdvancedOperator squareRoot;
+    public AdvancedOperator squareRoot, radian, sin, cos, tan, ln, log, oneDivideX, ePowN;
+    public AdvancedOperator xPowTwo, xPowN, abs, pi, euler;
+    public NormalOperator xFactorial;
+
+
 
     public CalculatorPresenter(View view){
 
@@ -80,6 +84,33 @@ public class CalculatorPresenter {
 
         squareRoot = new AdvancedOperator (R.id.btnSquare_root,(Button) view.findViewById(R.id.btnSquare_root),"√(","sqrt(");
 
+        radian = new AdvancedOperator(R.id.btnRad,(Button)view.findViewById(R.id.btnRad) , "rad(", "rad(");
+
+        sin = new AdvancedOperator(R.id.btnSin,(Button)view.findViewById(R.id.btnSin) , "sin(", "sin(");
+
+        cos = new AdvancedOperator(R.id.btnCos,(Button)view.findViewById(R.id.btnCos) , "cos(", "cos(");
+
+        tan = new AdvancedOperator(R.id.btnTan,(Button)view.findViewById(R.id.btnTan) , "tan(", "tan(");
+
+        ln = new AdvancedOperator(R.id.btnLn,(Button)view.findViewById(R.id.btnLn) , "ln(", "ln(");
+
+        log = new AdvancedOperator(R.id.btnLog,(Button)view.findViewById(R.id.btnLog) , "log(", "log10(");
+
+        oneDivideX = new AdvancedOperator(R.id.btn1divideX,(Button)view.findViewById(R.id.btn1divideX) , "1/", "1/");
+
+        ePowN = new AdvancedOperator(R.id.button32,(Button)view.findViewById(R.id.button32) , "e^(", "e^(");
+
+        xPowTwo = new AdvancedOperator(R.id.button31,(Button)view.findViewById(R.id.button31) , "\u00B2", "^(2)");
+
+        xPowN = new AdvancedOperator(R.id.button29,(Button)view.findViewById(R.id.button29) , "^(", "^(");
+
+        abs = new AdvancedOperator(R.id.btnAbsX,(Button)view.findViewById(R.id.btnAbsX) , "abs(", "abs(");
+
+        pi = new AdvancedOperator(R.id.btnPi,(Button)view.findViewById(R.id.btnPi) , "π", "pi");
+
+        euler = new AdvancedOperator(R.id.btnEuler,(Button)view.findViewById(R.id.btnEuler) , "e", "e");
+
+        xFactorial = new NormalOperator(R.id.btnXFactorial,(Button)view.findViewById(R.id.btnXFactorial) , "!", "!");
     }
 
     public void clear(){
@@ -154,134 +185,59 @@ public class CalculatorPresenter {
                     break;
                 }
                 case "√":
-//                    if(checkValidOperation()) {
-//                    calculator.pressEqual = false;
-//                    String TAG = "Button";
-//                    Log.i(TAG, "onClickButton: √"+calculator.getDisplay());
-//                        calculator.setDisplay(calculator.getDisplay()+"√(");
-//                    Log.i(TAG, "after onClickButton: √ display : "+calculator.getDisplay());
-//                        calculator.setExpression(calculator.getExpression()+"sqrt(");
-//                    Log.i(TAG, "after onClickButton: √ expression : "+calculator.getExpression());
-//                        screen.setText(calculator.getDisplay());
-//                    Log.i(TAG, "after onClickButton: √ screen : "+calculator.getExpression());
                     screen.setText(calculator.clickButton(squareRoot));
-//                    }
                     break;
 
                 case "sin":
-                    if (checkValidOperation()) {
-                        calculator.pressEqual = false;
-//                        String text = screen.getText().toString().trim();
-                        calculator.setDisplay(calculator.getDisplay() + "sin(");
-                        calculator.setExpression(calculator.getExpression() + "sin(");
-                        screen.setText(calculator.getDisplay());
-                    }
+                    screen.setText(calculator.clickButton(sin));
                     break;
                 case "cos":
-                    if (checkValidOperation()) {
-                        calculator.pressEqual = false;
-//                        String text = screen.getText().toString().trim();
-                        calculator.setDisplay(calculator.getDisplay() + "cos(");
-                        calculator.setExpression(calculator.getExpression() + "cos(");
-                        screen.setText(calculator.getDisplay());
-                    }
+                    screen.setText(calculator.clickButton(cos));
                     break;
                 case "tan":
-                    if (checkValidOperation()) {
-                        calculator.pressEqual = false;
-//                        String text = screen.getText().toString().trim();
-                        calculator.setDisplay(calculator.getDisplay() + "tan(");
-                        calculator.setExpression(calculator.getExpression() + "tan(");
-                        screen.setText(calculator.getDisplay());
-                    }
+                    screen.setText(calculator.clickButton(tan));
                     break;
 
                 case "Rad":
-                    if(checkValidOperation()){
-                        calculator.pressEqual = false;
-                        calculator.setDisplay(calculator.getDisplay()+"rad(");
-                        calculator.setExpression(calculator.getExpression()+"rad(");
-                        screen.setText(calculator.getDisplay());
-                    }
-                    break;
+                        screen.setText(calculator.clickButton(radian));
+                        break;
                 case "ln":
-                    if(checkValidOperation()){
-                        calculator.pressEqual = false;
-                        calculator.setDisplay(calculator.getDisplay()+"ln(");
-                        calculator.setExpression(calculator.getExpression()+"ln(");
-                        screen.setText(calculator.getDisplay());
-                    }
+                    screen.setText(calculator.clickButton(ln));
                     break;
 
                 case "log":
-                    if(checkValidOperation()){
-                        calculator.pressEqual = false;
-                        calculator.setDisplay(calculator.getDisplay()+"log(");
-                        calculator.setExpression(calculator.getExpression()+"log(");
-                        screen.setText(calculator.getDisplay());
-                    }
+                    screen.setText(calculator.clickButton(log));
                     break;
 
                 case "1/x":
-                    if(checkValidOperation()){
-                        calculator.pressEqual = false;
-                        calculator.setDisplay(calculator.getDisplay()+"1/");
-                        calculator.setExpression(calculator.getExpression()+"1/");
-                        screen.setText(calculator.getDisplay());
-                    }
+                    screen.setText(calculator.clickButton(oneDivideX));
                     break;
 
                 case "eⁿ":
-                    if(checkValidOperation()){
-                        calculator.pressEqual = false;
-                        calculator.setDisplay(calculator.getDisplay()+"e^(");
-                        calculator.setExpression(calculator.getExpression()+"e^(");
-                        screen.setText(calculator.getDisplay());
-                    }
+                    screen.setText(calculator.clickButton(euler));
                     break;
                 case "x\u00B2":
-//                    if(checkValidOperation()){
-                    calculator.pressEqual = false;
-                        calculator.setDisplay(calculator.getDisplay()+"^(2)");
-                        calculator.setExpression(calculator.getExpression()+"^(2)");
-                        screen.setText(calculator.getDisplay());
-//                    }
+                    screen.setText(calculator.clickButton(xPowTwo));
                     break;
                 case "xⁿ":
-//                    if(checkValidOperation()){
-                    calculator.pressEqual = false;
-                        calculator.setDisplay(calculator.getDisplay()+"^(");
-                        calculator.setExpression(calculator.getExpression()+"^(");
-                        screen.setText(calculator.getDisplay());
-//                    }
+                    screen.setText(calculator.clickButton(xPowN));
                     break;
-
                 case "|x|":
-                    if(checkValidOperation()){
-                        calculator.pressEqual = false;
-                        calculator.setDisplay(calculator.getDisplay()+"abs(");
-                        calculator.setExpression(calculator.getExpression()+"abs(");
-                        screen.setText(calculator.getDisplay());
-                    }
+                    screen.setText(calculator.clickButton(abs));
                     break;
 
                 case "π":
-                    if(checkValidOperation()){
-                        calculator.pressEqual = false;
-                        calculator.setDisplay(calculator.getDisplay()+"π");
-                        calculator.setExpression(calculator.getExpression()+"pi");
-                        screen.setText(calculator.getDisplay());
-                    }
+                    screen.setText(calculator.clickButton(pi));
                     break;
 
                 case "e":
-                    if(checkValidOperation()){
-                        calculator.pressEqual = false;
-                        calculator.setDisplay(calculator.getDisplay()+"e");
-                        calculator.setExpression(calculator.getExpression()+"e");
-                        screen.setText(calculator.getDisplay());
-                    }
+                    screen.setText(calculator.clickButton(euler));
                     break;
+
+                case "x!":
+                    screen.setText(calculator.clickButton(xFactorial));
+                    break;
+
                 default: {
                     screen.setText(calculator.insertNum(b.getText().toString()));
                     break;
