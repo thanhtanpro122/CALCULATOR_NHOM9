@@ -1,5 +1,6 @@
 package hcmute.edu.calculator.presenter;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -10,6 +11,7 @@ import java.util.List;
 
 import hcmute.edu.calculator.R;
 import hcmute.edu.calculator.model.calculator.Calculator;
+import hcmute.edu.calculator.model.operator.AdvancedOperator;
 import hcmute.edu.calculator.model.operator.Expression;
 import hcmute.edu.calculator.model.operator.NormalOperator;
 import hcmute.edu.calculator.model.operator.Number;
@@ -33,7 +35,8 @@ public class CalculatorPresenter {
     public NormalOperator percent;
     public Button comma;
     public Button dauNgoac;
-//    public NormalOperator squareRoot;
+
+    public AdvancedOperator squareRoot;
 
     public CalculatorPresenter(View view){
 
@@ -75,7 +78,8 @@ public class CalculatorPresenter {
 
         dauNgoac = (Button) view.findViewById(R.id.btnParenthesis);
 
-//        squareRoot = new NormalOperator(R.id.btnSquare_root, (Button) view.findViewById(R.id.btnSquare_root),"√","sqrt(");
+        squareRoot = new AdvancedOperator (R.id.btnSquare_root,(Button) view.findViewById(R.id.btnSquare_root),"√(","sqrt(");
+
     }
 
     public void clear(){
@@ -100,6 +104,7 @@ public class CalculatorPresenter {
             if(isError()){
                 clear();
             }
+            Log.i("clickButton", "onClickButton: "+b.getText().toString());
             switch (b.getText().toString()) {
                 case "=": {
                     if(!isClear()) {
@@ -149,15 +154,23 @@ public class CalculatorPresenter {
                     break;
                 }
                 case "√":
-                    if(checkValidOperation()) {
-                        calculator.setDisplay(calculator.getDisplay()+"√(");
-                        calculator.setDisplay(calculator.getExpression()+"sqrt(");
-                        screen.setText(calculator.getDisplay());
-                    }
+//                    if(checkValidOperation()) {
+//                    calculator.pressEqual = false;
+//                    String TAG = "Button";
+//                    Log.i(TAG, "onClickButton: √"+calculator.getDisplay());
+//                        calculator.setDisplay(calculator.getDisplay()+"√(");
+//                    Log.i(TAG, "after onClickButton: √ display : "+calculator.getDisplay());
+//                        calculator.setExpression(calculator.getExpression()+"sqrt(");
+//                    Log.i(TAG, "after onClickButton: √ expression : "+calculator.getExpression());
+//                        screen.setText(calculator.getDisplay());
+//                    Log.i(TAG, "after onClickButton: √ screen : "+calculator.getExpression());
+                    screen.setText(calculator.clickButton(squareRoot));
+//                    }
                     break;
 
                 case "sin":
                     if (checkValidOperation()) {
+                        calculator.pressEqual = false;
 //                        String text = screen.getText().toString().trim();
                         calculator.setDisplay(calculator.getDisplay() + "sin(");
                         calculator.setExpression(calculator.getExpression() + "sin(");
@@ -166,6 +179,7 @@ public class CalculatorPresenter {
                     break;
                 case "cos":
                     if (checkValidOperation()) {
+                        calculator.pressEqual = false;
 //                        String text = screen.getText().toString().trim();
                         calculator.setDisplay(calculator.getDisplay() + "cos(");
                         calculator.setExpression(calculator.getExpression() + "cos(");
@@ -174,6 +188,7 @@ public class CalculatorPresenter {
                     break;
                 case "tan":
                     if (checkValidOperation()) {
+                        calculator.pressEqual = false;
 //                        String text = screen.getText().toString().trim();
                         calculator.setDisplay(calculator.getDisplay() + "tan(");
                         calculator.setExpression(calculator.getExpression() + "tan(");
@@ -183,6 +198,7 @@ public class CalculatorPresenter {
 
                 case "Rad":
                     if(checkValidOperation()){
+                        calculator.pressEqual = false;
                         calculator.setDisplay(calculator.getDisplay()+"rad(");
                         calculator.setExpression(calculator.getExpression()+"rad(");
                         screen.setText(calculator.getDisplay());
@@ -190,6 +206,7 @@ public class CalculatorPresenter {
                     break;
                 case "ln":
                     if(checkValidOperation()){
+                        calculator.pressEqual = false;
                         calculator.setDisplay(calculator.getDisplay()+"ln(");
                         calculator.setExpression(calculator.getExpression()+"ln(");
                         screen.setText(calculator.getDisplay());
@@ -198,6 +215,7 @@ public class CalculatorPresenter {
 
                 case "log":
                     if(checkValidOperation()){
+                        calculator.pressEqual = false;
                         calculator.setDisplay(calculator.getDisplay()+"log(");
                         calculator.setExpression(calculator.getExpression()+"log(");
                         screen.setText(calculator.getDisplay());
@@ -206,6 +224,7 @@ public class CalculatorPresenter {
 
                 case "1/x":
                     if(checkValidOperation()){
+                        calculator.pressEqual = false;
                         calculator.setDisplay(calculator.getDisplay()+"1/");
                         calculator.setExpression(calculator.getExpression()+"1/");
                         screen.setText(calculator.getDisplay());
@@ -214,28 +233,32 @@ public class CalculatorPresenter {
 
                 case "eⁿ":
                     if(checkValidOperation()){
+                        calculator.pressEqual = false;
                         calculator.setDisplay(calculator.getDisplay()+"e^(");
                         calculator.setExpression(calculator.getExpression()+"e^(");
                         screen.setText(calculator.getDisplay());
                     }
                     break;
-                case "x\\u00B2":
-                    if(checkValidOperation()){
+                case "x\u00B2":
+//                    if(checkValidOperation()){
+                    calculator.pressEqual = false;
                         calculator.setDisplay(calculator.getDisplay()+"^(2)");
                         calculator.setExpression(calculator.getExpression()+"^(2)");
                         screen.setText(calculator.getDisplay());
-                    }
+//                    }
                     break;
                 case "xⁿ":
-                    if(checkValidOperation()){
+//                    if(checkValidOperation()){
+                    calculator.pressEqual = false;
                         calculator.setDisplay(calculator.getDisplay()+"^(");
                         calculator.setExpression(calculator.getExpression()+"^(");
                         screen.setText(calculator.getDisplay());
-                    }
+//                    }
                     break;
 
                 case "|x|":
                     if(checkValidOperation()){
+                        calculator.pressEqual = false;
                         calculator.setDisplay(calculator.getDisplay()+"abs(");
                         calculator.setExpression(calculator.getExpression()+"abs(");
                         screen.setText(calculator.getDisplay());
@@ -244,14 +267,16 @@ public class CalculatorPresenter {
 
                 case "π":
                     if(checkValidOperation()){
-                        calculator.setDisplay(calculator.getDisplay()+"PI");
-                        calculator.setExpression(calculator.getExpression()+"PI");
+                        calculator.pressEqual = false;
+                        calculator.setDisplay(calculator.getDisplay()+"π");
+                        calculator.setExpression(calculator.getExpression()+"pi");
                         screen.setText(calculator.getDisplay());
                     }
                     break;
 
                 case "e":
                     if(checkValidOperation()){
+                        calculator.pressEqual = false;
                         calculator.setDisplay(calculator.getDisplay()+"e");
                         calculator.setExpression(calculator.getExpression()+"e");
                         screen.setText(calculator.getDisplay());

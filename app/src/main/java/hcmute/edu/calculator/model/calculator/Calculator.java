@@ -7,7 +7,9 @@ import org.mariuszgromada.math.mxparser.Expression;
 
 import java.text.DecimalFormat;
 
+import hcmute.edu.calculator.model.operator.AdvancedOperator;
 import hcmute.edu.calculator.model.operator.IOperatorImp;
+import hcmute.edu.calculator.model.operator.NormalOperator;
 
 
 public class Calculator {
@@ -16,6 +18,8 @@ public class Calculator {
     private String expression;
     private String display;
     public boolean pressEqual;
+
+    private String TAG = "Calculator";
 
     public Calculator(){
         this.expression = "";
@@ -131,17 +135,39 @@ public class Calculator {
 
         StringBuilder strDisplay = new StringBuilder(display);
         StringBuilder strExpression = new StringBuilder(expression);
+
         if ( display.equals("")){
+//            return display;
+            if(operatorImp instanceof AdvancedOperator){
+                Log.i(TAG, "clickButton: Vao AdvancedOperator display.equals(\"\")");
+                display += operatorImp.getsDisplay();
+                expression += operatorImp.getsDisplayExe();
+                Log.i(TAG, "clickButton: Vao AdvancedOperator display.equals(\"\") : "+display);
+            }
             return display;
         }
         else{
-            if(!display.substring(display.length() -  1 ,display.length()).matches("^-?\\d+$")) {
-                if (display.substring(display.length() - 1, display.length()).matches("^[+-x÷]$")) {
-                    display = strDisplay.delete(display.length() - 1, display.length()).toString();
-                    display += operatorImp.getsDisplay();
-                    expression = strExpression.delete(expression.length() - 1, expression.length()).toString();
-                    expression += operatorImp.getsDisplayExe();
-                    return display;
+            if(operatorImp instanceof NormalOperator) {
+//                Log.i(TAG, "clickButton: Vao NormalOperator");
+                if (!display.substring(display.length() - 1, display.length()).matches("^-?\\d+$")) {
+                    if (display.substring(display.length() - 1, display.length()).matches("^[+-x÷]$")) {
+                        display = strDisplay.delete(display.length() - 1, display.length()).toString();
+                        display += operatorImp.getsDisplay();
+                        expression = strExpression.delete(expression.length() - 1, expression.length()).toString();
+                        expression += operatorImp.getsDisplayExe();
+                        return display;
+                    }
+                }
+            }else{
+                if(operatorImp instanceof AdvancedOperator){
+                    Log.i(TAG, "clickButton: Vao AdvancedOperator");
+                    String lastChar = display.substring(display.length()-1, display.length());
+                    if(lastChar.matches("^-?\\d+$")) {
+                        Log.i(TAG, "clickButton: Vao AdvancedOperator 1");
+                        display += "x" + operatorImp.getsDisplay();
+                        expression += "*" + operatorImp.getsDisplayExe();
+                        return display;
+                    }
                 }
             }
         }
@@ -214,7 +240,7 @@ public class Calculator {
         }
         else {
             String lastChar = display.substring(display.length()-1, display.length());
-            if(display.matches("^-?\\d+$")){
+            if(lastChar.matches("^-?\\d+$")){
                 display+="x(";
                 expression+="*(";
             }
