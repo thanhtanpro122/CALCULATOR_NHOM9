@@ -49,11 +49,15 @@ public class Calculator {
         if(!display.equals("")&&!display.equals("ERROR")) {
             if(display.substring(display.length()-1,display.length()).equals("%"))
             {
+                display=expression;
                 display = display.substring(0,display.length() - 1);
+                display=themChamVao();
                 expression = expression.substring(0,expression.length() - 4);
             }
             else {
+                display=expression;
                 display = display.substring(0,display.length() - 1);
+                display=themChamVao();
                 expression = expression.substring(0,expression.length() - 1);
             }
 
