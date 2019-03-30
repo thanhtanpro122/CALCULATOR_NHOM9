@@ -6,13 +6,13 @@ public abstract class IOperatorImp implements IOperator{
     protected int id;
     protected Button btn;
     protected String sDisplay;
-    protected String sDisplayExe;
+    protected String sDisplayExp;
 
-    public IOperatorImp(int id, Button btn ,String display, String displayExe){
+    public IOperatorImp(int id, Button btn ,String display, String displayExp){
         this.id = id;
         this.btn = btn;
         this.sDisplay = display;
-        this.sDisplayExe = displayExe;
+        this.sDisplayExp = displayExp;
     }
 
     public int getId() {
@@ -39,11 +39,11 @@ public abstract class IOperatorImp implements IOperator{
         this.sDisplay = sDisplay;
     }
 
-    public String getsDisplayExe() {
-        return sDisplayExe;
+    public String getsDisplayExp() {
+        return sDisplayExp;
     }
 
-    public void setsDisplayExe(String sDisplayExe) {
-        this.sDisplayExe = sDisplayExe;
+    public void setsDisplayExp(String sDisplayExp) {
+        this.sDisplayExp = sDisplayExp;
     }
 }

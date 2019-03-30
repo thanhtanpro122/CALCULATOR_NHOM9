@@ -11,6 +11,7 @@ import java.util.List;
 
 import hcmute.edu.calculator.R;
 import hcmute.edu.calculator.model.calculator.Calculator;
+import hcmute.edu.calculator.model.operator.AdvOperatorWithNumber;
 import hcmute.edu.calculator.model.operator.AdvancedOperator;
 import hcmute.edu.calculator.model.operator.Expression;
 import hcmute.edu.calculator.model.operator.NormalOperator;
@@ -34,11 +35,11 @@ public class CalculatorPresenter {
     public NormalOperator negative;
     public NormalOperator percent;
     public Button comma;
-    public Button dauNgoac;
+    public Button parenthesis;
 
     public AdvancedOperator squareRoot, radian, sin, cos, tan, ln, log, oneDivideX, ePowN;
-    public AdvancedOperator xPowTwo, xPowN, abs, pi, euler;
-    public NormalOperator xFactorial;
+    public AdvancedOperator pi, euler, abs ;
+    public AdvOperatorWithNumber xPowN,xFactorial,xPowTwo;
 
 
 
@@ -80,7 +81,7 @@ public class CalculatorPresenter {
 
         comma = (Button) view.findViewById(R.id.btnComma);
 
-        dauNgoac = (Button) view.findViewById(R.id.btnParenthesis);
+        parenthesis = (Button) view.findViewById(R.id.btnParenthesis);
 
         squareRoot = new AdvancedOperator (R.id.btnSquare_root,(Button) view.findViewById(R.id.btnSquare_root),"√(","sqrt(");
 
@@ -100,9 +101,9 @@ public class CalculatorPresenter {
 
         ePowN = new AdvancedOperator(R.id.button32,(Button)view.findViewById(R.id.button32) , "e^(", "e^(");
 
-        xPowTwo = new AdvancedOperator(R.id.button31,(Button)view.findViewById(R.id.button31) , "\u00B2", "^(2)");
+        xPowTwo = new AdvOperatorWithNumber(R.id.button31,(Button)view.findViewById(R.id.button31) , "\u00B2", "^(2)");
 
-        xPowN = new AdvancedOperator(R.id.button29,(Button)view.findViewById(R.id.button29) , "^(", "^(");
+        xPowN = new AdvOperatorWithNumber(R.id.button29,(Button)view.findViewById(R.id.button29) , "^(", "^(");
 
         abs = new AdvancedOperator(R.id.btnAbsX,(Button)view.findViewById(R.id.btnAbsX) , "abs(", "abs(");
 
@@ -110,7 +111,7 @@ public class CalculatorPresenter {
 
         euler = new AdvancedOperator(R.id.btnEuler,(Button)view.findViewById(R.id.btnEuler) , "e", "e");
 
-        xFactorial = new NormalOperator(R.id.btnXFactorial,(Button)view.findViewById(R.id.btnXFactorial) , "!", "!");
+        xFactorial = new AdvOperatorWithNumber(R.id.btnXFactorial,(Button)view.findViewById(R.id.btnXFactorial) , "!", "!");
     }
 
     public void clear(){
@@ -129,6 +130,34 @@ public class CalculatorPresenter {
         screen.setText(text);
     }
 
+    /**
+     * Change text size screen after click button
+     */
+    public void fixScreen(){
+        String text = screen.getText().toString();
+        if(text.length() > 8){
+
+        }
+        switch (screen.getText().length()){
+            case 0:{
+                screen.setTextSize(70);
+                break;
+            }
+            case 7:{
+                screen.setTextSize(70);
+                break;
+            }
+            case 8:{
+                screen.setTextSize(50);
+                break;
+            }
+        }
+    }
+
+    /**
+     * Click button
+     * @param v View from CalculatorPresenter
+     */
     public void onClickButton(View v){
         if(v instanceof Button) {
             Button b = (Button) v;
@@ -173,11 +202,11 @@ public class CalculatorPresenter {
                     break;
                 }
                 case "( )":{
-                    screen.setText(calculator.xulyngoac());
+                    screen.setText(calculator.addParenthesis());
                     break;
                 }
                 case ".":{
-                    screen.setText(calculator.xulyCham());
+                    screen.setText(calculator.addComma());
                     break;
                 }
                 case "%":{
@@ -243,24 +272,19 @@ public class CalculatorPresenter {
                     break;
                 }
             }
-
+            if(!b.getText().toString().equals("=")){
+                calculator.pressEqual = false;
+            }
         }else{
             if(v instanceof ImageButton){
                 ImageButton imageButton = (ImageButton) v;
                 if(imageButton.getId() == R.id.btnBackspace){
-                    screen.setText(calculator.backSpace(screen));
+                    screen.setText(calculator.backSpace());
                 }
+                calculator.pressEqual = false;
             }
         }
-    }
-
-    private boolean checkValidOperation() {
-        String text = screen.getText().toString().trim();
-        if (text.isEmpty()) {
-            return true;
-        }
-        char last = text.charAt(text.length() - 1);
-        return last == '+' || last == '-' || last == '⨯' || last == '÷' || last == '(';
+        fixScreen();
     }
 
     public Calculator getCalculator() {

@@ -14,8 +14,8 @@ public class NormalOperator extends IOperatorImp {
     }
 
     @Override
-    public String displayExe() {
-        return sDisplayExe;
+    public String displayExp() {
+        return sDisplayExp;
     }
 
 

@@ -15,17 +15,36 @@
         tools:layout_editor_absoluteY="0dp">
 
 
-        <TextView
+        <!--<TextView-->
+            <!--android:id="@+id/txtViewExpression"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="211dp"-->
+            <!--android:gravity="center|right"-->
+            <!--android:inputType="text"-->
+            <!--android:lines="8"-->
+            <!--android:maxLines="3"-->
+            <!--android:text="0"-->
+            <!--android:textColor="@color/colorPrimaryDark"-->
+            <!--android:textColorLink="@color/colorPrimaryDark"-->
+            <!--android:textSize="70sp" />-->
+
+        <EditText
             android:id="@+id/txtViewExpression"
             android:layout_width="match_parent"
             android:layout_height="211dp"
+            android:inputType="textMultiLine"
+            android:lines="8"
+            android:minLines="6"
             android:gravity="center|right"
-            android:inputType="text"
-            android:maxLines="2"
+            android:maxLines="10"
             android:text="0"
             android:textColor="@color/colorPrimaryDark"
             android:textColorLink="@color/colorPrimaryDark"
-            android:textSize="70sp" />
+            android:textSize="70sp"
+            android:scrollbars="vertical"
+            android:background="@android:color/transparent"
+            android:cursorVisible="false"
+        />
 
         <TableLayout
             android:layout_width="match_parent"

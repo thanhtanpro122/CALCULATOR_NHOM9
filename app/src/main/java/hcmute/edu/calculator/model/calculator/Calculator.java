@@ -7,6 +7,7 @@ import org.mariuszgromada.math.mxparser.Expression;
 
 import java.text.DecimalFormat;
 
+import hcmute.edu.calculator.model.operator.AdvOperatorWithNumber;
 import hcmute.edu.calculator.model.operator.AdvancedOperator;
 import hcmute.edu.calculator.model.operator.IOperatorImp;
 import hcmute.edu.calculator.model.operator.NormalOperator;
@@ -27,25 +28,26 @@ public class Calculator {
         pressEqual = false;
     }
 
-    //Handling when press Equal Button
+    /**
+     * Handling when press Equal Button
+     * @return display of result or ERROR
+     */
     public String execute(){
         try {
-            pressEqual = true;
-            int countDauNgoac = cout(display, "(")-cout(expression, ")");
-            if(countDauNgoac > 0){
-                for(int i = 0 ; i < countDauNgoac ; i++){
-                    display += ")";
-                    expression += ")";
+            if(!display.matches("^-?\\d+$")){
+                pressEqual = true;
+                findCloseParenthesis();
+                Log.i("test", "execute: "+expression);
+                Expression ex = new Expression(removeFormatThousand(expression)); // xoa dau ','
+                Double result = ex.calculate();
+
+                if (result.isNaN()) {
+                    throw new Exception();
+                }else{
+                    setResult(result);
+                    return display;
                 }
             }
-//            DecimalFormat df = new DecimalFormat("#,###.###");
-            Log.i("test", "execute: "+expression);
-            Expression ex = new Expression(formatRemoveThousand(expression)); // xoa dau ','
-            Double result = ex.calculate();
-
-            if (result.isNaN()) throw new Exception();
-            expression = formatDecimal(result);
-            display = formatDecimal(result);
             return display;
         } catch (Exception e) {
             clear();
@@ -54,24 +56,46 @@ public class Calculator {
         }
     }
 
+    /**
+     * Use to find and add close parenthesis when you press Equal Button
+     */
+    public void findCloseParenthesis(){
+        int countDauNgoac = cout(display, "(")-cout(expression, ")");
+        if(countDauNgoac > 0){
+            for(int i = 0 ; i < countDauNgoac ; i++){
+                display += ")";
+                expression += ")";
+            }
+        }
+    }
+
+    /**
+     * Set result after format for display and expression
+     * @param result value of expression calculate
+     */
+    public void setResult(double result){
+        expression = formatDecimal(result);
+        display = formatDecimal(result);
+    }
+
     //Handling erase button
-    public String backSpace(TextView screen){
+
+    /**
+     * Handling erase button
+     * @return display after delete last string
+     */
+    public String backSpace(){
         pressEqual = false;
-        display = screen.getText().toString();
-        String lastChar = display.substring(display.length()-1,display.length());
+        String lastChar = getLastString();
         if(display.length() == 1){
             return clear();
         }else {
             if (!display.equals("ERROR")) {
                 if (lastChar.equals("√")) {
-                    display = display.substring(0, display.length() - 1);
-                    expression = expression.substring(0, expression.length() - 5);
+                    deleteSquareRoot();
                 } else {
-                    display = display.substring(0, display.length() - 1);
-                    expression = expression.substring(0, expression.length() - 1);
+                    deleteLastString();
                 }
-
-                //   Log.i("test", "backSpace: "+expression);
             } else {
                 if (display.equals("ERROR")) {
                     return clear();
@@ -79,6 +103,24 @@ public class Calculator {
             }
         }
         return display;
+    }
+
+    /**
+     * Use to delete 1 last string
+     */
+    public void deleteLastString(){
+        display = display.substring(0, display.length() - 1);
+        expression = expression.substring(0, expression.length() - 1);
+    }
+
+    /**
+     * Use to delete square root
+     * In display √
+     * In expression sqrt
+     */
+    public void deleteSquareRoot(){
+        display = display.substring(0, display.length() - 1);
+        expression = expression.substring(0, expression.length() - 4);
     }
 
     /**
@@ -96,13 +138,12 @@ public class Calculator {
      * @return display chuỗi in ra màn hình
      */
     public String insertNum(String num){
-        // pressEqual = false
         if(!pressEqual) {
             if(display.equals("0")){
                 display = num;
                 expression = num;
             } else{
-                if(display.substring(display.length()-1,display.length()).matches("^[!|%)]$")) {
+                if(getLastString().matches("^[!|%)]$")) {
                     display += "x";
                     expression += "*";
                 }
@@ -114,7 +155,7 @@ public class Calculator {
         else{
             display = num;
             expression = num;
-            pressEqual = false;
+//            pressEqual = false;
         }
 
         return display;
@@ -130,75 +171,134 @@ public class Calculator {
         return display;
     }
 
-    public String getExpression() {
-        return expression;
-    }
-
-    public void setExpression(String expression) {
-        this.expression = expression;
-    }
-
-    public String getDisplay() {
-        return display;
-    }
-
-    public void setDisplay(String display) {
-        this.display = display;
-    }
-
+    /**
+     * Click operator button
+     * @param operatorImp operator you click
+     * @return display
+     */
     public String clickButton(IOperatorImp operatorImp){
-        //Xu ly sau khi bang
-        pressEqual = false;
-
-        StringBuilder strDisplay = new StringBuilder(display);
-        StringBuilder strExpression = new StringBuilder(expression);
-
-        if ( display.equals("")){
-//            return display;
+        if ( display.equals("0")){
             if(operatorImp instanceof AdvancedOperator){
-                display += operatorImp.getsDisplay();
-                expression += operatorImp.getsDisplayExe();
+                addOperatorReplaceDisplay(operatorImp);
             }
             return display;
         }
         else{
             if(operatorImp instanceof NormalOperator) {
-//                Log.i(TAG, "clickButton: Vao NormalOperator");
-                if (!display.substring(display.length() - 1, display.length()).matches("^-?\\d+$")) {
-                    if (display.substring(display.length() - 1, display.length()).matches("^[+-x÷]$")) {
-                        display = strDisplay.delete(display.length() - 1, display.length()).toString();
-                        display += operatorImp.getsDisplay();
-                        expression = strExpression.delete(expression.length() - 1, expression.length()).toString();
-                        expression += operatorImp.getsDisplayExe();
+                if (!checkAfterNumber()) {
+                    if (checkAfterNormalOperater()) {
+                        changeNormalOperator(operatorImp);
                         return display;
                     }
                 }
             }else{
                 if(operatorImp instanceof AdvancedOperator){
-                    String lastChar = display.substring(display.length()-1, display.length());
-                    if(lastChar.matches("^-?\\d+$")) {
-                        display += "x" + operatorImp.getsDisplay();
-                        expression += "*" + operatorImp.getsDisplayExe();
+                    if(checkAfterNumber()) {
+                        addAdvOperatorAfterNumber(operatorImp);
                         return display;
+                    }
+                }else{
+                    if(operatorImp instanceof AdvOperatorWithNumber)
+                    {
+                        if(checkAfterNumber()) {
+                            addOperator(operatorImp);
+                            return display;
+
+                        }
                     }
                 }
             }
         }
-        display += operatorImp.getsDisplay();
-        expression += operatorImp.getsDisplayExe();
+        addOperator(operatorImp);
         return display;
     }
 
-    //Xử lý khi bấm dấu âm
+    /**
+     * Get last 1 string
+     * @return 1 string
+     */
+    public String getLastString(){
+        return display.substring(display.length() - 1, display.length());
+    }
+
+    /**
+     * Check if last string is number
+     * @return TRUE : before is number | FALSE : not
+     */
+    public boolean checkAfterNumber(){
+        return getLastString().matches("^-?\\d+$");
+    }
+
+    /**
+     * Check if last string is NormalOperator | it use for NormalOperator | when you change operator
+     * @return TRUE : before is NormalOperator | FALSE : not
+     */
+    public boolean checkAfterNormalOperater(){
+        return getLastString().matches("^[+-x÷]$");
+    }
+
+    /**
+     * When open or after clear, you click AdvancedOperator,it will replace 0
+     * @param operatorImp what you click
+     */
+    public void addOperatorReplaceDisplay(IOperatorImp operatorImp){
+        display = operatorImp.getsDisplay();
+        expression = operatorImp.getsDisplayExp();
+    }
+
+    /**
+     * Add 1 operater
+     * @param operatorImp what you click
+     */
+    public void addOperator(IOperatorImp operatorImp){
+        display += operatorImp.getsDisplay();
+        expression += operatorImp.getsDisplayExp();
+    }
+
+    /**
+     * Add AdvanceOperator with Multi
+     * @param operatorImp what you click
+     */
+    public void addOperatorWithMulti(IOperatorImp operatorImp){
+        display += "x" + operatorImp.getsDisplay();
+        expression += "*" + operatorImp.getsDisplayExp();
+    }
+
+    /**
+     * If before is number and you click AdvanceOperator, it will auto add multi before AdvanceOperator
+     * @param operatorImp what you click
+     */
+    public void addAdvOperatorAfterNumber(IOperatorImp operatorImp){
+        addOperatorWithMulti(operatorImp);
+    }
+
+    /**
+     * If before it is a NormalOperator and you clich another NormalOperator, it wil change this NormalOperator
+     * @param operatorImp what you click
+     */
+    public void changeNormalOperator(IOperatorImp operatorImp){
+        StringBuilder strDisplay = new StringBuilder(display);
+        StringBuilder strExpression = new StringBuilder(expression);
+
+        display = strDisplay.delete(display.length() - 1, display.length()).toString();
+        display += operatorImp.getsDisplay();
+        expression = strExpression.delete(expression.length() - 1, expression.length()).toString();
+        expression += operatorImp.getsDisplayExp();
+    }
+
+    /**
+     * Process when you click plus/sub method, it will change positive to negative and vice versa
+     * @param operatorImp plus/sub button
+     * @return display string
+     */
     public String clickNegative(IOperatorImp operatorImp){
         //Xu ly sau khi bang
-        pressEqual = false;
+//        pressEqual = false;
 
         StringBuilder strDisplay = new StringBuilder(display);
         StringBuilder strExpression = new StringBuilder(expression);
 
         boolean flag= true;
-
 
         //Duyệt từ cuối chuỗi
         for (int i = display.length(); i>0 ; i--){
@@ -214,43 +314,54 @@ public class Calculator {
                             break;
                         }
                     }
-
                 }
                 display = strDisplay.insert(i,operatorImp.getsDisplay()).toString();
-                expression = strExpression.insert(i,operatorImp.getsDisplayExe()).toString();
-//                display = strDisplay.insert(display.length(),")").toString();
-//                expression = strExpression.insert(expression.length(),")").toString();
+                expression = strExpression.insert(i,operatorImp.getsDisplayExp()).toString();
                 flag= false;
                 break;
             }
         }
         if (flag == true){
             display = strDisplay.insert(0,operatorImp.getsDisplay()).toString();
-            expression = strExpression.insert(0,operatorImp.getsDisplayExe()).toString();
-//            display = strDisplay.insert(display.length(),")").toString();
-//            expression = strExpression.insert(expression.length(),")").toString();
+            expression = strExpression.insert(0,operatorImp.getsDisplayExp()).toString();
         }
-
-        //Log.i("test", "clickNegative: "+expression);
         return display;
     }
 
-    public String formatRemoveThousand(String ex){
+    /**
+     * Format before calculate expression
+     * @param ex string need format
+     * @return string after format
+     */
+    public String removeFormatThousand(String ex){
         return ex.replaceAll(",","");
     }
 
+    /**
+     * Format number after calculate
+     * @param ex number need format
+     * @return string after format
+     */
     public String formatDecimal(Double ex){
-        DecimalFormat df = new DecimalFormat("#,###.###");
+        DecimalFormat df = new DecimalFormat("#,###.##########");
         return df.format(ex);
     }
-
+    /**
+     * Format number after calculate
+     * @param ex string need format
+     * @return string after format
+     */
     public String formatDecimal(String ex){
-        DecimalFormat df = new DecimalFormat("#,###.###");
+        DecimalFormat df = new DecimalFormat("#,###.##########");
         return df.format(ex);
     }
 
 
-    // dành cho máy samsung.
+    /**
+     * It for Samsung bug
+     * @param ex string need format
+     * @return string after format
+     */
     public String replace(String ex)
     {
         String temp = "";
@@ -259,10 +370,10 @@ public class Calculator {
         return temp;
     }
 
-
-    public String xulyngoac() {
+    //Xử lý dấu ngoặc
+    public String addParenthesis() {
         //Xu ly sau khi bang
-        pressEqual = false;
+//        pressEqual = false;
 
         if(display.equals("")){
             display = "(";
@@ -276,7 +387,6 @@ public class Calculator {
             }
             else {
                 if(display.indexOf("(") == -1){
-
                     if(lastChar.matches("^-?\\d+$")){
                         display+="x(";
                         expression+="*(";
@@ -307,31 +417,36 @@ public class Calculator {
                     }
                 }
             }
-
         }
         return display;
     }
 
-    //Count the number of duplicates in a string
-    public int cout(String chuoi, String x){
-        int dem = 0;
-        for (int i=0 ; i< chuoi.length(); i++){
-            if(chuoi.substring(i,i+1).equals(x)){
-                dem++;
+    /**
+     *  Count the number of duplicates in a string
+     * @param string string check
+     * @param x what check in string
+     * @return
+     */
+    public int cout(String string, String x){
+        int count = 0;
+        for (int i=0 ; i< string.length(); i++){
+            if(string.substring(i,i+1).equals(x)){
+                count++;
             }
         }
-        return dem;
+        return count;
     }
-    //Handling when have dots in expression
-    public String xulyCham(){
-        //Xu ly sau khi bang
-        // pressEqual = true
+
+
+    /**
+     * Handling when have dots in expression
+     * @return display
+     */
+    public String addComma(){
         if(pressEqual){
             clear();
-            pressEqual = false;
-
+//            pressEqual = false;
         }
-
         boolean haveDot = false;
         //Check if have dots in expression
         for (int i = display.length(); i>0 ;i--){
@@ -344,7 +459,7 @@ public class Calculator {
             }
         }
         if(haveDot == false){
-            if(!display.substring(display.length()-1,display.length()).matches("^-?\\d+$")){
+            if(!checkAfterNumber()){
                 insertNum("0.");
             }
             else{

@@ -70,7 +70,7 @@ public class CalculatorFragment extends Fragment implements View.OnClickListener
         btnEqual.setOnClickListener(this);
 
         calculatorPresenter.negative.getBtn().setOnClickListener(this);
-        calculatorPresenter.dauNgoac.setOnClickListener(this);
+        calculatorPresenter.parenthesis.setOnClickListener(this);
         calculatorPresenter.comma.setOnClickListener(this);
         calculatorPresenter.percent.getBtn().setOnClickListener(this);
 
