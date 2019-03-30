@@ -76,7 +76,7 @@ public class CalculatorPresenter {
 
         negative = new NormalOperator(R.id.btnPlusMinus, (Button) view.findViewById(R.id.btnPlusMinus),"(-","(-");
 
-        percent = new NormalOperator(R.id.btnPercent, (Button) view.findViewById(R.id.btnPercent),"%","/100");
+        percent = new NormalOperator(R.id.btnPercent, (Button) view.findViewById(R.id.btnPercent),"%","%");
 
         comma = (Button) view.findViewById(R.id.btnComma);
 

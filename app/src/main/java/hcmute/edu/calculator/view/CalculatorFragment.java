@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -18,7 +19,7 @@ import hcmute.edu.calculator.model.operator.Number;
 import hcmute.edu.calculator.presenter.CalculatorPresenter;
 
 public class CalculatorFragment extends Fragment implements View.OnClickListener {
-    private TextView screen;
+//    private TextView screen;
 
     private MainActivity mainActivity;
 
@@ -55,7 +56,7 @@ public class CalculatorFragment extends Fragment implements View.OnClickListener
             e.printStackTrace();
         }
 
-        screen = (TextView) v.findViewById(R.id.txtViewExpression);
+//        screen = (TextView) v.findViewById(R.id.txtViewExpression);
 
 
         calculatorPresenter.plus.getBtn().setOnClickListener(this);
