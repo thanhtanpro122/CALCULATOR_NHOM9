@@ -10,40 +10,38 @@
         android:layout_height="match_parent"
         android:gravity="bottom"
         android:orientation="vertical"
-        android:padding="8dp"
         tools:layout_editor_absoluteX="0dp"
         tools:layout_editor_absoluteY="0dp">
 
 
         <!--<TextView-->
-            <!--android:id="@+id/txtViewExpression"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:gravity="center|right"-->
-            <!--android:inputType="text"-->
-            <!--android:singleLine="false"-->
-            <!--android:maxLines="3"-->
-            <!--android:text="0"-->
-            <!--android:textColor="@color/colorPrimaryDark"-->
-            <!--android:textSize="60sp" />-->
+        <!--android:id="@+id/txtViewExpression"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:gravity="center|right"-->
+        <!--android:inputType="text"-->
+        <!--android:singleLine="false"-->
+        <!--android:maxLines="3"-->
+        <!--android:text="0"-->
+        <!--android:textColor="@color/colorPrimaryDark"-->
+        <!--android:textSize="60sp" />-->
 
         <EditText
             android:id="@+id/txtViewExpression"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textMultiLine"
-            android:lines="8"
-            android:minLines="6"
+            android:layout_height="100dp"
+            android:background="@android:color/transparent"
+            android:cursorVisible="false"
             android:gravity="center|right"
-            android:maxLines="10"
+            android:inputType="textMultiLine"
+            android:lines="2"
+            android:maxLines="2"
+            android:minLines="2"
+            android:scrollbars="vertical"
             android:text="0"
             android:textColor="@color/colorPrimaryDark"
             android:textColorLink="@color/colorPrimaryDark"
-            android:textSize="70sp"
-            android:scrollbars="vertical"
-            android:background="@android:color/transparent"
-            android:cursorVisible="false"
-            />
+            android:textSize="70sp" />
 
         <TableLayout
             android:layout_width="match_parent"
