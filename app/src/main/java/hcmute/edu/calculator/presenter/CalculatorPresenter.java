@@ -243,7 +243,7 @@ public class CalculatorPresenter {
                     break;
 
                 case "eⁿ":
-                    screen.setText(calculator.clickButton(euler));
+                    screen.setText(calculator.clickButton(ePowN));
                     break;
                 case "x\u00B2":
                     screen.setText(calculator.clickButton(xPowTwo));

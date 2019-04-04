@@ -143,7 +143,7 @@ public class Calculator {
                 display = num;
                 expression = num;
             } else{
-                if(getLastString().matches("^[!|%)]$")) {
+                if(checkAfterSpecialSymbol()) {
                     display += "x";
                     expression += "*";
                 }
@@ -193,8 +193,11 @@ public class Calculator {
                 }
             }else{
                 if(operatorImp instanceof AdvancedOperator){
-                    if(checkAfterNumber()) {
+                    if(!checkAfterOpenParenthesis()) {
                         addAdvOperatorAfterNumber(operatorImp);
+                        return display;
+                    }else{
+                        addOperator(operatorImp);
                         return display;
                     }
                 }else{
@@ -219,6 +222,14 @@ public class Calculator {
      */
     public String getLastString(){
         return display.substring(display.length() - 1, display.length());
+    }
+
+    /**
+     * Check after open parenthesis
+     * @return TRUE | FALSE
+     */
+    public boolean checkAfterOpenParenthesis(){
+        return getLastString().matches("^[(]$");
     }
 
     /**
@@ -357,18 +368,18 @@ public class Calculator {
     }
 
 
-    /**
-     * It for Samsung bug
-     * @param ex string need format
-     * @return string after format
-     */
-    public String replace(String ex)
-    {
-        String temp = "";
-        temp = ex.replaceAll(",",".");
-
-        return temp;
-    }
+//    /**
+//     * It for Samsung bug
+//     * @param ex string need format
+//     * @return string after format
+//     */
+//    public String replace(String ex)
+//    {
+//        String temp = "";
+//        temp = ex.replaceAll(",",".");
+//
+//        return temp;
+//    }
 
     //Xử lý dấu ngoặc
     public String addParenthesis() {
@@ -381,13 +392,27 @@ public class Calculator {
         }
         else {
             String lastChar = display.substring(display.length()-1, display.length());
-            if(lastChar.matches("^-?\\d+$")){
-                display+="x(";
-                expression+="*(";
-            }
-            else {
-                if(display.indexOf("(") == -1){
-                    if(lastChar.matches("^-?\\d+$")){
+            if(display.indexOf("(") == -1){
+                if(lastChar.matches("^-?\\d+$") || lastChar.matches("^[!%)πe]$")){
+                    display+="x(";
+                    expression+="*(";
+                }
+                else {
+                    display+="(";
+                    expression+="(";
+                }
+            }else {
+                if(cout(display,"(")-cout(display,")")>0){
+                    if(lastChar.matches("^-?\\d+$")||lastChar.equals(")")){
+                        display+=")";
+                        expression+=")";
+                    }
+                    else {
+                        display+="(";
+                        expression+="(";
+                    }
+                }else {
+                    if(lastChar.matches("^-?\\d+$") || checkAfterSpecialSymbol()){
                         display+="x(";
                         expression+="*(";
                     }
@@ -395,30 +420,18 @@ public class Calculator {
                         display+="(";
                         expression+="(";
                     }
-                }else {
-                    if(cout(display,"(")-cout(display,")")>0){
-                        if(lastChar.matches("^-?\\d+$")||lastChar.equals(")")){
-                            display+=")";
-                            expression+=")";
-                        }
-                        else {
-                            display+="(";
-                            expression+="(";
-                        }
-                    }else {
-                        if(lastChar.matches("^-?\\d+$")||lastChar.equals(")")){
-                            display+="x(";
-                            expression+="*(";
-                        }
-                        else {
-                            display+="(";
-                            expression+="(";
-                        }
-                    }
                 }
             }
         }
         return display;
+    }
+
+    /**
+     * Check if it after special symbol ( ! , % , ) , π , e ), after this must be insert *
+     * @return TRUE | FALSE
+     */
+    public boolean checkAfterSpecialSymbol(){
+        return getLastString().matches("^[!%)πe]$");
     }
 
     /**
