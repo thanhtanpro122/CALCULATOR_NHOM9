@@ -386,7 +386,7 @@ public class Calculator {
         //Xu ly sau khi bang
 //        pressEqual = false;
 
-        if(display.equals("")){
+        if(display.equals("0")){
             display = "(";
             expression = "(";
         }
