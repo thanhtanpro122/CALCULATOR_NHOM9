@@ -403,7 +403,7 @@ public class Calculator {
                 }
             }else {
                 if(cout(display,"(")-cout(display,")")>0){
-                    if(lastChar.matches("^-?\\d+$")||lastChar.equals(")")){
+                    if(lastChar.matches("^-?\\d+$")||checkAfterSpecialSymbol()){
                         display+=")";
                         expression+=")";
                     }
